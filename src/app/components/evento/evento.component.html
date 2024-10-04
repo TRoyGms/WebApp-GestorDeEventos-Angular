@@ -1,1 +1,43 @@
-<p>evento works!</p>
+<h2>Crear o Editar Evento</h2>
+<form (ngSubmit)="crearEvento()">
+  <input type="text" [(ngModel)]="nuevoEvento.nombre" name="nombre" placeholder="Nombre del Evento" required>
+  <div class="Validation" *ngIf="!nuevoEvento.nombre">Nombre es requerido</div>
+
+  <input type="date" [(ngModel)]="nuevoEvento.fecha" name="fecha" required>
+  <div class="Validation" *ngIf="nuevoEvento.fecha < today">La fecha debe ser en el futuro</div>
+
+  <select [(ngModel)]="nuevoEvento.tipo" name="tipo" required>
+    <option value="">Seleccione Tipo de Evento</option>
+    <option value="conferencia">Conferencia</option>
+    <option value="taller">Taller</option>
+    <option value="curso">Curso</option>
+  </select>
+  <div class="Validation" *ngIf="!nuevoEvento.tipo">Tipo de evento es requerido</div>
+
+  <input type="number" [(ngModel)]="nuevoEvento.capacidadMaxima" name="capacidad" placeholder="Capacidad Máxima" required>
+  <div class="Validation" *ngIf="nuevoEvento.capacidadMaxima <= 0">Capacidad debe ser mayor que cero</div>
+
+  <input type="text" [(ngModel)]="nuevoEvento.lugar" name="lugar" placeholder="Lugar" required>
+  <div class="Validation" *ngIf="!nuevoEvento.lugar">Este campo es requerido</div>
+
+  <button type="submit">{{ eventoEditando ? 'Guardar Cambios' : 'Crear Evento' }}</button>
+</form>
+
+<div class="EventList">
+  <h2>Lista de Eventos</h2>
+  <select [(ngModel)]="tipoFiltro">
+    <option value="">Todos los Tipos</option>
+    <option value="conferencia">Conferencia</option>
+    <option value="taller">Taller</option>
+    <option value="curso">Curso</option>
+  </select>
+  <ul>
+    <li *ngFor="let evento of eventosFiltrados">
+      {{ evento.nombre }} - {{ evento.fecha | date }} - {{ evento.tipo }} - {{ evento.capacidadMaxima }} - {{ evento.lugar }}
+      <div class="BtnEditDelete">
+      <button (click)="editarEvento(evento)">Editar</button>
+      <button (click)="eliminarEvento(evento.nombre)">Eliminar</button>
+      </div>
+    </li>
+  </ul>
+</div>

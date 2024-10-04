@@ -1,0 +1,179 @@
+  h2 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    width: 100%;
+    max-width: 500px;
+    margin: 10px auto;
+    padding: 20px;
+    font-size: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 20px;
+    box-sizing: border-box;
+  }
+  
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="tel"]:focus,
+  input[type="number"]:focus,
+  input[type="date"]:focus,
+  select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Estilos para el contenedor de botones */
+  .BtnEditDelete {
+      display: flex; /* Usar flexbox para alinear los botones */
+      gap: 5px; /* Espacio entre botones */
+  }
+  
+  /* Botones dentro del contenedor */
+  .BtnEditDelete button {
+      padding: 5px 10px; /* Espacio interior para los botones */
+      font-size: 24px; /* Tamaño de fuente más pequeño */
+      cursor: pointer; /* Cursor de puntero */
+      border: none; /* Sin borde */
+      border-radius: 10px; /* Bordes redondeados */
+  }
+  
+  /* Color de fondo y estilo de los botones */
+  .BtnEditDelete button:first-child {
+      background-color: #28a745; /* Verde para editar */
+      color: white; /* Texto en blanco */
+  }
+  
+  .BtnEditDelete button:first-child:hover {
+      background-color: #218838; /* Hover para editar */
+  }
+  
+  .BtnEditDelete button:last-child {
+      background-color: #dc3545; /* Rojo para eliminar */
+      color: white; /* Texto en blanco */
+  }
+  
+  .BtnEditDelete button:last-child:hover {
+      background-color: #7d1a24; /* Hover para eliminar */
+  }
+
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    padding: 15px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  li button {
+    padding: 5px 10px;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  li button:hover {
+    background-color: #c82333;
+  }
+  
+  li button:first-child {
+    background-color: #28a745;
+    margin-right: 5px;
+  }
+  
+  li button:first-child:hover {
+    background-color: #218838;
+  }
+  
+
+  .Validation {
+    color: #dc3545;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+  .EventList {
+    width: 40%; /* Limita el ancho al 40% de la página */
+    margin: 20px auto; /* Centra el div horizontalmente */
+    padding: 30px; /* Espaciado interior para que se vea más bonito */
+    background-color: #f9f9f9; /* Color de fondo claro */
+    border-radius: 12px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  }
+  
+  .EventList h2 {
+      text-align: center; /* Centra el título */
+      color: black;
+  }
+  
+  .EventList select {
+      font-size: 20px;
+      width: 100%; /* Asegura que el select use todo el ancho del contenedor */
+      padding: 10px; /* Espaciado interior para el select */
+      margin-bottom: 15px; /* Espaciado entre el select y la lista */
+      border-radius: 5px; /* Bordes redondeados */
+      border: 1px solid #ccc; /* Borde del select */
+  }
+  
+  /* Estilo para el ul */
+  .EventList ul {
+      list-style-type: none; /* Elimina los puntos de la lista */
+      padding: 0; /* Elimina el padding por defecto */
+  }
+  
+  /* Estilo para los li */
+  .EventList li {
+      padding: 15px; /* Espaciado interior para los items de la lista */
+      background-color: #fff; /* Color de fondo blanco para los items */
+      font-size: 20px;
+      margin-bottom: 10px; /* Espaciado entre los items */
+      border-radius: 5px; /* Bordes redondeados */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  }
+
+  

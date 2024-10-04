@@ -1,0 +1,33 @@
+/* Estilos para centrar el contenido del header */
+.header-container {
+    text-align: center; /* Centra el texto */
+    background-color: #4A90E2; /* Color de fondo */
+    padding: 20px; /* Espaciado interior */
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5em; /* Tamaño del título */
+    margin: 0; /* Sin margen */
+    color: white; /* Color del texto del título */
+}
+
+nav {
+    margin-top: 30px; /* Espacio encima de la navegación */
+}
+
+nav a {
+    font-size: 24px;
+    font-weight: bold;
+    color: white; /* Color de los enlaces */
+    text-decoration: none; /* Sin subrayado */
+    padding: 10px 15px; /* Espaciado alrededor de los enlaces */
+    margin: 0 10px; /* Espaciado entre enlaces */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #166999; /* Color al pasar el mouse */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+nav a:hover {
+    background-color: #57c9b3; /* Color al pasar el mouse */
+}
