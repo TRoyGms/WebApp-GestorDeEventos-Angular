@@ -9,7 +9,7 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./participante.component.css']
 })
 export class ParticipanteComponent implements OnInit {
-  nuevoParticipante: Participante = new Participante('', '', '', '', 0);
+  nuevoParticipante: Participante = new Participante(0, '', '', '', '', 0);
   participantes: Participante[] = [];
   participanteEditando: boolean = false;
   listaVisible: boolean = false;
@@ -27,20 +27,23 @@ export class ParticipanteComponent implements OnInit {
       this.dataService.agregarParticipante(this.nuevoParticipante);
     }
     this.limpiarFormulario();
+    this.participantes = this.dataService.obtenerParticipantes(); // Actualiza la lista de participantes
   }
+  
 
   editarParticipante(participante: Participante) {
     this.nuevoParticipante = { ...participante };
     this.participanteEditando = true;
   }
 
-  eliminarParticipante(correo: string) {
-    this.dataService.eliminarParticipante(correo);
-    this.participantes = this.dataService.obtenerParticipantes();
+  eliminarParticipante(id: number) {
+    this.dataService.eliminarParticipante(id);
+    this.participantes = this.dataService.obtenerParticipantes(); // Actualiza la lista después de eliminar
   }
+  
 
   limpiarFormulario() {
-    this.nuevoParticipante = new Participante('', '', '', '', 0);
+    this.nuevoParticipante = new Participante( 0, '', '', '', '', 0);
     this.participanteEditando = false;
   }
 

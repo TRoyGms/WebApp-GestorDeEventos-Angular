@@ -2,29 +2,34 @@
     <input type="text" [(ngModel)]="nuevoParticipante.nombre" name="nombre" placeholder="Nombre" required>
     <div class="Validation" *ngIf="!nuevoParticipante.nombre">Nombre es requerido</div>
   
-    <input type="text" [(ngModel)]="nuevoParticipante.apellidos" name="apellidos" placeholder="Apellidos" required>
-    <div class="Validation" *ngIf="!nuevoParticipante.apellidos">Apellidos son requeridos</div>
+    <input type="text" [(ngModel)]="nuevoParticipante.apellidos" name="apellidos" placeholder="Apellido" required>
+    <div class="Validation" *ngIf="!nuevoParticipante.apellidos">Apellido es requeridos</div>
   
     <input type="email" [(ngModel)]="nuevoParticipante.correo" name="correo" placeholder="Correo" required>
-    <div class="Validation" *ngIf="!nuevoParticipante.correo">Correo es requerido</div>
+    <div class="Validation" *ngIf="!nuevoParticipante.correo">Este campo es requerido</div>
     <div class="Validation" *ngIf="nuevoParticipante.correo && !validarCorreo(nuevoParticipante.correo)">Correo inválido</div>
   
     <input type="tel" [(ngModel)]="nuevoParticipante.telefono" name="telefono" placeholder="Teléfono" required>
-    <div class="Validation" *ngIf="!nuevoParticipante.telefono">Teléfono es requerido</div>
+    <div class="Validation" *ngIf="!nuevoParticipante.telefono">Este campo es requerido</div>
   
     <input type="number" [(ngModel)]="nuevoParticipante.edad" name="edad" placeholder="Edad" required>
-    <div class="Validation" *ngIf="nuevoParticipante.edad <= 0">Edad debe ser mayor que cero</div>
+    <div class="Validation" *ngIf="nuevoParticipante.edad <= 17">Debe ser mayor de edad</div>
   
     <button type="submit">{{ participanteEditando ? 'Guardar Cambios' : 'Registrar Participante' }}</button>
   </form>
 
-<div class="ParticiList"> 
-  <button class="BtnList" (click)="mostrarListaParticipantes()">Lista de Participantes</button>
-
-  <div *ngIf="listaVisible">
-    <h3>Lista de Participantes Registrados:</h3>
-    <ul>
-        <li *ngFor="let participante of participantes">{{ participante.nombre }} {{ participante.apellidos }} - {{ participante.correo }}</li>
-    </ul>
+  <div class="ParticiList"> 
+    <button class="BtnList" (click)="mostrarListaParticipantes()">Lista de Participantes</button>
+  
+    <div *ngIf="listaVisible">
+      <h3>Lista de Participantes Registrados:</h3>
+      <ul>
+        <li *ngFor="let participante of participantes">
+          {{ participante.nombre }} {{ participante.apellidos }} {{ participante.edad }} - {{ participante.correo }} - {{ participante.telefono }} 
+          <button (click)="editarParticipante(participante)">Editar</button>
+          <button (click)="eliminarParticipante(participante.id)">Eliminar</button>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
+  

@@ -47,9 +47,12 @@ export class DataService {
   // Método para guardar un nuevo participante
   agregarParticipante(participante: Participante) {
     const participantes = this.obtenerParticipantes();
+    const nuevoId = participantes.length > 0 ? participantes[participantes.length - 1].id + 1 : 1; // Incrementar el id
+    participante.id = nuevoId; // Asignar el nuevo id
     participantes.push(participante);
     localStorage.setItem(this.participantesKey, JSON.stringify(participantes));
   }
+  
 
   // Método para obtener todos los participantes
   obtenerParticipantes(): Participante[] {
@@ -59,18 +62,23 @@ export class DataService {
 
   // Método para editar un participante
   editarParticipante(participanteEditado: Participante) {
-    const participantes = this.obtenerParticipantes(); // Obtenemos los participantes actuales
-    const index = participantes.findIndex(participante => participante.correo === participanteEditado.correo);
+    const participantes = this.obtenerParticipantes();
+    const index = participantes.findIndex(p => p.id === participanteEditado.id); // Buscar por id
+  
     if (index !== -1) {
-      participantes[index] = participanteEditado;
-      localStorage.setItem(this.participantesKey, JSON.stringify(participantes)); // Actualiza el LocalStorage
+      participantes[index] = { ...participanteEditado }; // Actualizar el participante en la lista
+      localStorage.setItem(this.participantesKey, JSON.stringify(participantes)); // Guardar los cambios en localStorage
+    } else {
+      console.error('Participante no encontrado para editar:', participanteEditado);
     }
   }
+   
 
   // Método para eliminar un participante
-  eliminarParticipante(correo: string) {
-    let participantes = this.obtenerParticipantes(); // Obtenemos los participantes actuales
-    participantes = participantes.filter(participante => participante.correo !== correo);
+  eliminarParticipante(id: number) {
+    let participantes = this.obtenerParticipantes(); // Obtener los participantes actuales
+    participantes = participantes.filter(participante => participante.id !== id); // Filtrar por id
     localStorage.setItem(this.participantesKey, JSON.stringify(participantes)); // Actualiza el LocalStorage
   }
+  
 }
