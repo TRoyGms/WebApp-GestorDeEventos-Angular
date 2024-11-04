@@ -9,37 +9,77 @@ import { ParticipanteService } from '../../services/participante.service';
 })
 export class ParticipanteComponent implements OnInit {
   participantes: Participante[] = [];
-  nuevoParticipante: Participante = {
-    id: 0,
+  participanteSeleccionado: Omit<Participante, 'id'> & { id?: number } = {
     nombre: '',
     apellidos: '',
     correo: '',
     telefono: '',
     edad: 0
   };
+  modoEdicion: boolean = false;
 
   constructor(private participanteService: ParticipanteService) {}
 
   ngOnInit(): void {
+    this.cargarParticipantes();
+  }
+
+  cargarParticipantes(): void {
     this.participanteService.obtenerParticipantes().subscribe((data: Participante[]) => {
       this.participantes = data;
     });
   }
 
-  agregarParticipante(): void {
-    this.participanteService.agregarParticipante(this.nuevoParticipante);
-    this.nuevoParticipante = {
-      id: 0,
+  agregarOEditarParticipante(): void {
+    if (this.modoEdicion && this.participanteSeleccionado.id) {
+      // Editar participante
+      this.participanteService.editarParticipante(this.participanteSeleccionado as Participante).subscribe(
+        () => {
+          this.cargarParticipantes();
+          this.limpiarFormulario();
+        },
+        (error) => {
+          console.error('Error al editar participante:', error);
+        }
+      );
+    } else {
+      // Agregar participante
+      this.participanteService.agregarParticipante(this.participanteSeleccionado).subscribe(
+        () => {
+          this.cargarParticipantes();
+          this.limpiarFormulario();
+        },
+        (error) => {
+          console.error('Error al agregar participante:', error);
+        }
+      );
+    }
+  }
+
+  seleccionarParticipanteParaEditar(participante: Participante): void {
+    this.participanteSeleccionado = { ...participante }; // Cargar los datos del participante seleccionado
+    this.modoEdicion = true;
+  }
+
+  eliminarParticipante(id: number): void {
+    this.participanteService.eliminarParticipante(id).subscribe(
+      () => {
+        this.cargarParticipantes();
+      },
+      (error) => {
+        console.error('Error al eliminar participante:', error);
+      }
+    );
+  }
+
+  limpiarFormulario(): void {
+    this.participanteSeleccionado = {
       nombre: '',
       apellidos: '',
       correo: '',
       telefono: '',
       edad: 0
     };
-    
-    // Volver a obtener participantes después de agregar uno
-    this.participanteService.obtenerParticipantes().subscribe((data: Participante[]) => {
-      this.participantes = data;
-    });
+    this.modoEdicion = false;
   }
 }

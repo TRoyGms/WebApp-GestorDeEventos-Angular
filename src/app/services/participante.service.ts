@@ -15,7 +15,8 @@ export class ParticipanteService {
     return this.http.get<Participante[]>(this.apiUrl);
   }
 
-  agregarParticipante(participante: Participante): Observable<Participante> {
+  // Modifica el tipo para omitir 'id' al crear un participante
+  agregarParticipante(participante: Omit<Participante, 'id'>): Observable<Participante> {
     return this.http.post<Participante>(this.apiUrl, participante);
   }
 

@@ -1,24 +1,29 @@
 <div class="container">
-    <h2>Lista de Registros</h2>
-    <ul class="list">
-      <li *ngFor="let registro of registros">
-        Evento ID: {{ registro.id_evento }}, Participante ID: {{ registro.id_participante }}, Estado: {{ registro.estado }}
-      </li>
-    </ul>
-  
-    <h3>Agregar Registro</h3>
-    <form class="form" (ngSubmit)="agregarRegistro()">
-      <select [(ngModel)]="nuevoRegistro.id_evento" name="id_evento" required>
-        <option *ngFor="let evento of eventos" [value]="evento.id">{{ evento.nombre }}</option>
-      </select>
-      <select [(ngModel)]="nuevoRegistro.id_participante" name="id_participante" required>
-        <option *ngFor="let participante of participantes" [value]="participante.id">{{ participante.nombre }} {{ participante.apellidos }}</option>
-      </select>
-      <select [(ngModel)]="nuevoRegistro.estado" name="estado">
-        <option value="confirmado">Confirmado</option>
-        <option value="pendiente">Pendiente</option>
-      </select>
-      <button type="submit">Agregar</button>
-    </form>
-  </div>
-  
+  <h2>Lista de Registros</h2>
+  <ul class="list">
+    <li *ngFor="let registro of registros">
+      Evento: {{ obtenerNombreEvento(registro.id_evento) }},
+      Participante: {{ obtenerNombreParticipante(registro.id_participante) }},
+      Estado: {{ registro.estado }}
+      <button (click)="editarRegistro(registro)">Editar</button>
+      <button (click)="eliminarRegistro(registro.id)">Eliminar</button>
+    </li>
+  </ul>
+
+  <h3>{{ editandoRegistro ? 'Editar Registro' : 'Agregar Registro' }}</h3>
+  <form class="form" (ngSubmit)="agregarRegistro()">
+    <select [(ngModel)]="nuevoRegistro.id_evento" name="id_evento" required>
+      <option *ngFor="let evento of eventos" [value]="evento.id">{{ evento.nombre }}</option>
+    </select>
+    <select [(ngModel)]="nuevoRegistro.id_participante" name="id_participante" required>
+      <option *ngFor="let participante of participantes" [value]="participante.id">
+        {{ participante.nombre }} {{ participante.apellidos }}
+      </option>
+    </select>
+    <select [(ngModel)]="nuevoRegistro.estado" name="estado">
+      <option value="confirmado">Confirmado</option>
+      <option value="pendiente">Pendiente</option>
+    </select>
+    <button type="submit">{{ editandoRegistro ? 'Guardar Cambios' : 'Agregar' }}</button>
+  </form>
+</div>

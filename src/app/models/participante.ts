@@ -6,5 +6,3 @@ export interface Participante {
   telefono: string;
   edad: number;
 }
-
-  

@@ -14,4 +14,8 @@ export class LocalizacionService {
   obtenerLocalizaciones(): Observable<Localizacion[]> {
     return this.http.get<Localizacion[]>(this.apiUrl);
   }
+
+  agregarLocalizacion(localizacion: Localizacion): Observable<Localizacion> {
+    return this.http.post<Localizacion>(this.apiUrl, localizacion);
+  }
 }

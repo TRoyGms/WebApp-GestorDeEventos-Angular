@@ -1,8 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Evento } from '../../models/evento';
 import { EventoService } from '../../services/evento.service';
 import { LocalizacionService } from '../../services/localizaciones.service';
 import { Localizacion } from '../../models/localizacion';
-import { Evento } from '../../models/evento';
 
 @Component({
   selector: 'app-evento',
@@ -12,20 +12,19 @@ import { Evento } from '../../models/evento';
 export class EventoComponent implements OnInit {
   eventos: Evento[] = [];
   localizaciones: Localizacion[] = [];
-  nuevoEvento: Evento = {
+  eventoSeleccionado: Evento = {
     id: 0,
     nombre: '',
     fecha: '',
     hora: '',
     tipo: 'conferencia',
-    id_localizacion: 0,
-    capacidad_maxima: 0,
-    descripcion: ''
+    id_localizacion: 0
   };
+  modoEdicion: boolean = false;
 
   constructor(
     private eventoService: EventoService,
-    @Inject(LocalizacionService) private localizacionService: LocalizacionService // Usar @Inject
+    private localizacionService: LocalizacionService
   ) {}
 
   ngOnInit(): void {
@@ -50,19 +49,42 @@ export class EventoComponent implements OnInit {
     );
   }
 
-  agregarEvento(): void {
-    this.eventoService.agregarEvento(this.nuevoEvento).subscribe(() => {
-      this.nuevoEvento = {
-        id: 0,
-        nombre: '',
-        fecha: '',
-        hora: '',
-        tipo: 'conferencia',
-        id_localizacion: 0,
-        capacidad_maxima: 0,
-        descripcion: ''
-      };
+  seleccionarEventoParaEditar(evento: Evento): void {
+    this.eventoSeleccionado = { ...evento }; // Cargar los datos del evento seleccionado
+    this.modoEdicion = true;
+  }
+
+  agregarOEditarEvento(): void {
+    if (this.modoEdicion && this.eventoSeleccionado.id) {
+      // Editar evento existente
+      this.eventoService.editarEvento(this.eventoSeleccionado).subscribe(() => {
+        this.cargarEventos();
+        this.limpiarFormulario();
+      });
+    } else {
+      // Agregar nuevo evento
+      this.eventoService.agregarEvento(this.eventoSeleccionado).subscribe(() => {
+        this.cargarEventos();
+        this.limpiarFormulario();
+      });
+    }
+  }
+
+  eliminarEvento(id: number): void {
+    this.eventoService.eliminarEvento(id).subscribe(() => {
       this.cargarEventos();
     });
+  }
+
+  limpiarFormulario(): void {
+    this.eventoSeleccionado = {
+      id: 0,
+      nombre: '',
+      fecha: '',
+      hora: '',
+      tipo: 'conferencia',
+      id_localizacion: 0
+    };
+    this.modoEdicion = false;
   }
 }

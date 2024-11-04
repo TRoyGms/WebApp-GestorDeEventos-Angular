@@ -15,7 +15,7 @@ export class EventoService {
     return this.http.get<Evento[]>(this.apiUrl);
   }
 
-  agregarEvento(evento: Evento): Observable<Evento> {
+  agregarEvento(evento: Omit<Evento, 'id'>): Observable<Evento> {
     return this.http.post<Evento>(this.apiUrl, evento);
   }
 

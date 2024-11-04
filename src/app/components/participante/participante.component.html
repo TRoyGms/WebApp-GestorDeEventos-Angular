@@ -3,16 +3,19 @@
   <ul class="list">
     <li *ngFor="let participante of participantes">
       {{ participante.nombre }} {{ participante.apellidos }} - {{ participante.correo }}
+      <button (click)="seleccionarParticipanteParaEditar(participante)">Editar</button>
+      <button (click)="eliminarParticipante(participante.id)">Eliminar</button>
     </li>
   </ul>
 
-  <h3>Agregar Participante</h3>
-  <form class="form" (ngSubmit)="agregarParticipante()">
-    <input [(ngModel)]="nuevoParticipante.nombre" name="nombre" placeholder="Nombre" required>
-    <input [(ngModel)]="nuevoParticipante.apellidos" name="apellidos" placeholder="Apellidos" required>
-    <input [(ngModel)]="nuevoParticipante.correo" name="correo" placeholder="Correo" required>
-    <input [(ngModel)]="nuevoParticipante.telefono" name="telefono" placeholder="Teléfono" required>
-    <input [(ngModel)]="nuevoParticipante.edad" name="edad" type="number" placeholder="Edad" required>
-    <button type="submit">Agregar</button>
+  <h3 *ngIf="!modoEdicion">Agregar Participante</h3>
+  <h3 *ngIf="modoEdicion">Editar Participante</h3>
+  <form class="form" (ngSubmit)="agregarOEditarParticipante()">
+    <input [(ngModel)]="participanteSeleccionado.nombre" name="nombre" placeholder="Nombre" required>
+    <input [(ngModel)]="participanteSeleccionado.apellidos" name="apellidos" placeholder="Apellidos" required>
+    <input [(ngModel)]="participanteSeleccionado.correo" name="correo" placeholder="Correo" required>
+    <input [(ngModel)]="participanteSeleccionado.telefono" name="telefono" placeholder="Teléfono" required>
+    <input [(ngModel)]="participanteSeleccionado.edad" name="edad" type="number" placeholder="Edad" required>
+    <button type="submit">{{ modoEdicion ? 'Guardar Cambios' : 'Agregar' }}</button>
   </form>
 </div>

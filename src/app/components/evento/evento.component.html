@@ -1,28 +1,29 @@
 <div class="container">
   <h2>Lista de Eventos</h2>
-<ul>
-  <li *ngFor="let evento of eventos">
-    {{ evento.nombre }} - {{ evento.fecha }} - {{ evento.tipo }}
-  </li>
-</ul>
+  <ul>
+    <li *ngFor="let evento of eventos">
+      {{ evento.nombre }} - {{ evento.fecha }} - {{ evento.tipo }}
+      <button (click)="seleccionarEventoParaEditar(evento)">Editar</button>
+      <button (click)="eliminarEvento(evento.id)">Eliminar</button>
+    </li>
+  </ul>
 
-<h3>Agregar Evento</h3>
-<form (ngSubmit)="agregarEvento()">
-  <input [(ngModel)]="nuevoEvento.nombre" name="nombre" placeholder="Nombre" required>
-  <input [(ngModel)]="nuevoEvento.fecha" name="fecha" placeholder="Fecha" required>
-  <input [(ngModel)]="nuevoEvento.hora" name="hora" placeholder="Hora" required>
-  <select [(ngModel)]="nuevoEvento.id_localizacion" name="id_localizacion" required>
-    <option *ngFor="let localizacion of localizaciones" [value]="localizacion.id">
-      {{ localizacion.nombre }} (Capacidad: {{ localizacion.capacidad_maxima }})
-    </option>
-  </select>
-  <select [(ngModel)]="nuevoEvento.tipo" name="tipo">
-    <option value="conferencia">Conferencia</option>
-    <option value="taller">Taller</option>
-    <option value="curso">Curso</option>
-  </select>
-  <textarea [(ngModel)]="nuevoEvento.descripcion" name="descripcion" placeholder="Descripción"></textarea>
-  <button type="submit">Agregar</button>
-</form>
-
+  <h3 *ngIf="!modoEdicion">Agregar Evento</h3>
+  <h3 *ngIf="modoEdicion">Editar Evento</h3>
+  <form (ngSubmit)="agregarOEditarEvento()">
+    <input [(ngModel)]="eventoSeleccionado.nombre" name="nombre" placeholder="Nombre" required>
+    <input [(ngModel)]="eventoSeleccionado.fecha" name="fecha" placeholder="Fecha" required>
+    <input [(ngModel)]="eventoSeleccionado.hora" name="hora" placeholder="Hora" required>
+    <select [(ngModel)]="eventoSeleccionado.id_localizacion" name="id_localizacion" placeholder="Localizacion" required>
+      <option *ngFor="let localizacion of localizaciones" [value]="localizacion.id">
+        {{ localizacion.nombre }} - Capacidad: {{ localizacion.capacidad_maxima }}
+      </option>
+    </select>
+    <select [(ngModel)]="eventoSeleccionado.tipo" name="tipo">
+      <option value="conferencia">Conferencia</option>
+      <option value="taller">Taller</option>
+      <option value="curso">Curso</option>
+    </select>
+    <button type="submit">{{ modoEdicion ? 'Guardar Cambios' : 'Agregar' }}</button>
+  </form>
 </div>
