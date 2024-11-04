@@ -1,19 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Registro } from '../models/registro';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Registro, RegistroCreate } from '../models/registro'; // Import both interfaces
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class RegistroService {
-    private registros: Registro[] = []; // Almacena la lista de registros
+  private apiUrl = 'http://127.0.0.1:8000/registros/';
 
-    // Método para agregar un nuevo registro
-    agregarRegistro(registro: Registro) {
-        this.registros.push(registro);
-    }
+  constructor(private http: HttpClient) {}
 
-    // Método para obtener todos los registros
-    obtenerRegistros(): Registro[] {
-        return this.registros;
-    }
+  obtenerRegistros(): Observable<Registro[]> {
+    return this.http.get<Registro[]>(this.apiUrl);
+  }
+
+  agregarRegistro(registro: RegistroCreate): Observable<Registro> { // Use RegistroCreate here
+    return this.http.post<Registro>(this.apiUrl, registro);
+  }
+
+  editarRegistro(registro: Registro): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}${registro.id}`, registro);
+  }
+
+  eliminarRegistro(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}${id}`);
+  }
 }

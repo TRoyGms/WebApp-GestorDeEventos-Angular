@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { EventoService } from '../../services/evento.service';
+import { LocalizacionService } from '../../services/localizaciones.service';
+import { Localizacion } from '../../models/localizacion';
 import { Evento } from '../../models/evento';
-import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-evento',
@@ -8,46 +10,59 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./evento.component.css']
 })
 export class EventoComponent implements OnInit {
-  nuevoEvento: Evento = new Evento(0, '', new Date(), '', 0, '');
   eventos: Evento[] = [];
-  tipoFiltro: string = '';
-  eventoEditando: boolean = false;
-  today: Date = new Date(); // Definir la fecha actual
+  localizaciones: Localizacion[] = [];
+  nuevoEvento: Evento = {
+    id: 0,
+    nombre: '',
+    fecha: '',
+    hora: '',
+    tipo: 'conferencia',
+    id_localizacion: 0,
+    capacidad_maxima: 0,
+    descripcion: ''
+  };
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private eventoService: EventoService,
+    @Inject(LocalizacionService) private localizacionService: LocalizacionService // Usar @Inject
+  ) {}
 
-  ngOnInit() {
-    this.eventos = this.dataService.obtenerEventos();
+  ngOnInit(): void {
+    this.cargarEventos();
+    this.cargarLocalizaciones();
   }
 
-  crearEvento() {
-    if (this.eventoEditando) {
-      this.dataService.editarEvento(this.nuevoEvento);
-    } else {
-      this.dataService.agregarEvento(this.nuevoEvento);
-    }
-    this.limpiarFormulario();
+  cargarEventos(): void {
+    this.eventoService.obtenerEventos().subscribe((data: Evento[]) => {
+      this.eventos = data;
+    });
   }
 
-  editarEvento(evento: Evento) {
-    this.nuevoEvento = { ...evento };
-    this.eventoEditando = true;
+  cargarLocalizaciones(): void {
+    this.localizacionService.obtenerLocalizaciones().subscribe(
+      (data: Localizacion[]) => {
+        this.localizaciones = data;
+      },
+      (error: any) => {
+        console.error('Error al cargar las localizaciones', error);
+      }
+    );
   }
 
-  eliminarEvento(nombre: string) {
-    this.dataService.eliminarEvento(nombre);
-    this.eventos = this.dataService.obtenerEventos(); // Refrescar la lista de eventos
-  }
-
-  limpiarFormulario() {
-    this.nuevoEvento = new Evento(0, '', new Date(), '', 0, '');
-    this.eventoEditando = false;
-  }
-
-  get eventosFiltrados(): Evento[] {
-    if (this.tipoFiltro) {
-      return this.eventos.filter(evento => evento.tipo === this.tipoFiltro);
-    }
-    return this.eventos;
+  agregarEvento(): void {
+    this.eventoService.agregarEvento(this.nuevoEvento).subscribe(() => {
+      this.nuevoEvento = {
+        id: 0,
+        nombre: '',
+        fecha: '',
+        hora: '',
+        tipo: 'conferencia',
+        id_localizacion: 0,
+        capacidad_maxima: 0,
+        descripcion: ''
+      };
+      this.cargarEventos();
+    });
   }
 }

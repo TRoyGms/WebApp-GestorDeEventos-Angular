@@ -1,16 +1,12 @@
-export class Registro {
-    eventoId: number;
-    participanteId: number;
-    fechaRegistro: Date;
-    estado: string; //(confirmado, pendiente)
-    comentarios: string;
-
-    // Constructor para inicializar las propiedades
-    constructor(eventoId: number, participanteId: number, fechaRegistro: Date, estado: string, comentarios: string) {
-        this.eventoId = eventoId;
-        this.participanteId = participanteId;
-        this.fechaRegistro = fechaRegistro;
-        this.estado = estado;
-        this.comentarios = comentarios;
-    }
-}
+// registro.model.ts
+export interface RegistroCreate {
+    id_evento: number;
+    id_participante: number;
+    estado?: string; // Optional, defaults to 'pendiente' in your API
+  }
+  
+  // Define the complete Registro interface which includes the id
+  export interface Registro extends RegistroCreate {
+    id: number; // This includes the id for the existing registros
+  }
+  

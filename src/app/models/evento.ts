@@ -1,18 +1,11 @@
-export class Evento {
-    id: number; // Identificador único
-    nombre: string; 
-    fecha: Date;
-    tipo: string; //(conferencia, taller, curso)
-    capacidadMaxima: number; 
-    lugar: string; 
-
-    // Constructor para inicializar las propiedades
-    constructor(id: number, nombre: string, fecha: Date, tipo: string, capacidadMaxima: number, lugar: string) {
-        this.id = id; // Asignar el id
-        this.nombre = nombre;
-        this.fecha = fecha;
-        this.tipo = tipo;
-        this.capacidadMaxima = capacidadMaxima;
-        this.lugar = lugar;
-    }
-}
+export interface Evento {
+    id: number;
+    nombre: string;
+    fecha: string;
+    hora: string;
+    tipo: 'conferencia' | 'taller' | 'curso';
+    id_localizacion: number;
+    capacidad_maxima: number;
+    descripcion: string;
+  }
+  

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Participante } from '../../models/participante';
-import { DataService } from '../../services/data.service';
-
+import { ParticipanteService } from '../../services/participante.service';
 
 @Component({
   selector: 'app-participante',
@@ -9,54 +8,38 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./participante.component.css']
 })
 export class ParticipanteComponent implements OnInit {
-  nuevoParticipante: Participante = new Participante(0, '', '', '', '', 0);
   participantes: Participante[] = [];
-  participanteEditando: boolean = false;
-  listaVisible: boolean = false;
+  nuevoParticipante: Participante = {
+    id: 0,
+    nombre: '',
+    apellidos: '',
+    correo: '',
+    telefono: '',
+    edad: 0
+  };
 
-  constructor(private dataService: DataService) {}
+  constructor(private participanteService: ParticipanteService) {}
 
-  ngOnInit() {
-    this.participantes = this.dataService.obtenerParticipantes();
+  ngOnInit(): void {
+    this.participanteService.obtenerParticipantes().subscribe((data: Participante[]) => {
+      this.participantes = data;
+    });
   }
 
-  registrarParticipante() {
-    if (this.participanteEditando) {
-      this.dataService.editarParticipante(this.nuevoParticipante);
-    } else {
-      this.dataService.agregarParticipante(this.nuevoParticipante);
-    }
-    this.limpiarFormulario();
-    this.participantes = this.dataService.obtenerParticipantes(); // Actualiza la lista de participantes
-  }
-  
-
-  editarParticipante(participante: Participante) {
-    this.nuevoParticipante = { ...participante };
-    this.participanteEditando = true;
-  }
-
-  eliminarParticipante(id: number) {
-    this.dataService.eliminarParticipante(id);
-    this.participantes = this.dataService.obtenerParticipantes(); // Actualiza la lista después de eliminar
-  }
-  
-
-  limpiarFormulario() {
-    this.nuevoParticipante = new Participante( 0, '', '', '', '', 0);
-    this.participanteEditando = false;
-  }
-
-  // Función para validar el formato del correo electrónico
-  validarCorreo(correo: string): boolean {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(correo);
-  }
-
-  mostrarListaParticipantes() {
-    this.listaVisible = !this.listaVisible; // Cambia el estado de la lista
-    if (this.listaVisible) {
-      this.participantes = this.dataService.obtenerParticipantes(); // Actualiza la lista de participantes si se muestra
-    }
+  agregarParticipante(): void {
+    this.participanteService.agregarParticipante(this.nuevoParticipante);
+    this.nuevoParticipante = {
+      id: 0,
+      nombre: '',
+      apellidos: '',
+      correo: '',
+      telefono: '',
+      edad: 0
+    };
+    
+    // Volver a obtener participantes después de agregar uno
+    this.participanteService.obtenerParticipantes().subscribe((data: Participante[]) => {
+      this.participantes = data;
+    });
   }
 }
