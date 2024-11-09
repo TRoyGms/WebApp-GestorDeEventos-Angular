@@ -1,12 +1,17 @@
 <div class="container">
-  <h2>Lista de Eventos</h2>
-  <ul>
-    <li *ngFor="let evento of eventos">
-      {{ evento.nombre }} - {{ evento.fecha }} - {{ evento.tipo }}
-      <button (click)="seleccionarEventoParaEditar(evento)">Editar</button>
-      <button (click)="eliminarEvento(evento.id)">Eliminar</button>
-    </li>
-  </ul>
+  <div class="lista-eventos">
+    <div class="lista-header" (click)="toggleListaEventos()" [attr.expanded]="mostrarListaEventos ? 'true' : null">
+      <h2>Lista de Eventos</h2>
+    </div>
+
+    <ul class="lista-items" *ngIf="mostrarListaEventos">
+      <li *ngFor="let evento of eventos" class="lista-item">
+        {{ evento.nombre }} - {{ evento.fecha }} - {{ evento.tipo }}
+        <button class="btn btn-editar" (click)="seleccionarEventoParaEditar(evento)">Editar</button>
+        <button class="btn btn-eliminar" (click)="eliminarEvento(evento.id)">Eliminar</button>
+      </li>
+    </ul>
+  </div>
 
   <h3 *ngIf="!modoEdicion">Agregar Evento</h3>
   <h3 *ngIf="modoEdicion">Editar Evento</h3>
@@ -14,7 +19,7 @@
     <input [(ngModel)]="eventoSeleccionado.nombre" name="nombre" placeholder="Nombre" required>
     <input [(ngModel)]="eventoSeleccionado.fecha" name="fecha" placeholder="Fecha" required>
     <input [(ngModel)]="eventoSeleccionado.hora" name="hora" placeholder="Hora" required>
-    <select [(ngModel)]="eventoSeleccionado.id_localizacion" name="id_localizacion" placeholder="Localizacion" required>
+    <select [(ngModel)]="eventoSeleccionado.id_localizacion" name="id_localizacion" required>
       <option *ngFor="let localizacion of localizaciones" [value]="localizacion.id">
         {{ localizacion.nombre }} - Capacidad: {{ localizacion.capacidad_maxima }}
       </option>
@@ -24,6 +29,6 @@
       <option value="taller">Taller</option>
       <option value="curso">Curso</option>
     </select>
-    <button type="submit">{{ modoEdicion ? 'Guardar Cambios' : 'Agregar' }}</button>
+    <button type="submit" class="btn btn-submit">{{ modoEdicion ? 'Guardar Cambios' : 'Agregar' }}</button>
   </form>
 </div>

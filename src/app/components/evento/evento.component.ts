@@ -21,6 +21,7 @@ export class EventoComponent implements OnInit {
     id_localizacion: 0
   };
   modoEdicion: boolean = false;
+  mostrarListaEventos: boolean = true;
 
   constructor(
     private eventoService: EventoService,
@@ -32,6 +33,9 @@ export class EventoComponent implements OnInit {
     this.cargarLocalizaciones();
   }
 
+  toggleListaEventos(): void {
+    this.mostrarListaEventos = !this.mostrarListaEventos;
+  }
   cargarEventos(): void {
     this.eventoService.obtenerEventos().subscribe((data: Evento[]) => {
       this.eventos = data;

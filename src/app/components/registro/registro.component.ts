@@ -73,9 +73,10 @@ export class RegistroComponent implements OnInit {
   agregarRegistro(): void {
     if (this.esRegistroDuplicado(this.nuevoRegistro.id_evento, this.nuevoRegistro.id_participante)) {
       this.mensajeError = 'El participante ya está registrado en este evento.';
+      alert(this.mensajeError);  // Muestra una alerta si ya existe en la lista local
       return;
     }
-
+  
     if (this.editandoRegistro && this.registroEnEdicion) {
       this.registroService.editarRegistro(this.registroEnEdicion.id, this.nuevoRegistro).subscribe(
         () => {
@@ -84,6 +85,7 @@ export class RegistroComponent implements OnInit {
         },
         (error) => {
           console.error('Error al editar registro', error);
+          alert("Ocurrió un error al editar el registro.");
         }
       );
     } else {
@@ -93,7 +95,13 @@ export class RegistroComponent implements OnInit {
           this.resetFormulario();
         },
         (error) => {
-          console.error('Error al agregar registro', error);
+          if (error.status === 400 && error.error.detail === "El participante ya está registrado en este evento.") {
+            // Muestra la alerta en caso de error de duplicado
+            alert("El participante ya está registrado en este evento.");
+          } else {
+            console.error('Error al agregar registro', error);
+            alert("Ocurrió un error al agregar el registro.");
+          }
         }
       );
     }

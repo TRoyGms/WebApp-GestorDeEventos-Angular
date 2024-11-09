@@ -1,0 +1,75 @@
+/* Contenedor de la lista de participantes */
+.lista-participantes {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 8px;
+    color: #e0e0e0;
+  }
+  
+  /* Encabezado de la lista de participantes con estilo desplegable */
+  .lista-header {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #2a2a2a;
+    color: #ffa726; /* Color naranja vibrante */
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .lista-header:hover {
+    background-color: #444;
+  }
+  
+  .lista-header::before {
+    content: "▶";
+    margin-right: 10px;
+    font-size: 14px;
+    transform: rotate(0deg);
+    transition: transform 0.3s;
+  }
+  
+  .lista-header[expanded="true"]::before {
+    transform: rotate(90deg);
+  }
+  
+  /* Elementos de la lista de participantes */
+  .lista-items {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+  }
+  
+  .lista-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #3a3a3a;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .lista-item:hover {
+    background-color: #444;
+  }
+  
+  /* Botones en la lista de participantes */
+  .lista-item button {
+    padding: 5px 10px;
+    background-color: #ff7043; /* Color naranja */
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .lista-item button:hover {
+    background-color: #ff5722;
+  }
+  

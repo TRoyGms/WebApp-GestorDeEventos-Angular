@@ -17,6 +17,7 @@ export class ParticipanteComponent implements OnInit {
     edad: 0
   };
   modoEdicion: boolean = false;
+  mostrarLista: boolean = false; // Nueva variable para controlar la visibilidad de la lista
 
   constructor(private participanteService: ParticipanteService) {}
 
@@ -30,9 +31,12 @@ export class ParticipanteComponent implements OnInit {
     });
   }
 
+  toggleLista(): void {
+    this.mostrarLista = !this.mostrarLista;
+  }
+
   agregarOEditarParticipante(): void {
     if (this.modoEdicion && this.participanteSeleccionado.id) {
-      // Editar participante
       this.participanteService.editarParticipante(this.participanteSeleccionado as Participante).subscribe(
         () => {
           this.cargarParticipantes();
@@ -43,7 +47,6 @@ export class ParticipanteComponent implements OnInit {
         }
       );
     } else {
-      // Agregar participante
       this.participanteService.agregarParticipante(this.participanteSeleccionado).subscribe(
         () => {
           this.cargarParticipantes();
@@ -57,7 +60,7 @@ export class ParticipanteComponent implements OnInit {
   }
 
   seleccionarParticipanteParaEditar(participante: Participante): void {
-    this.participanteSeleccionado = { ...participante }; // Cargar los datos del participante seleccionado
+    this.participanteSeleccionado = { ...participante };
     this.modoEdicion = true;
   }
 
