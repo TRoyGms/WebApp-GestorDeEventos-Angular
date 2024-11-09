@@ -1,14 +1,19 @@
 <div class="container">
-  <h2>Lista de Registros</h2>
-  <ul class="list">
-    <li *ngFor="let registro of registros">
-      Evento: {{ obtenerNombreEvento(registro.id_evento) }},
-      Participante: {{ obtenerNombreParticipante(registro.id_participante) }},
-      Estado: {{ registro.estado }}
-      <button (click)="editarRegistro(registro)">Editar</button>
-      <button (click)="eliminarRegistro(registro.id)">Eliminar</button>
-    </li>
-  </ul>
+  <h2>Gestión de Registros</h2>
+
+  <div *ngFor="let evento of eventos" class="evento">
+    <h3 (click)="toggleEvento(evento.id)">
+      {{ evento.nombre }} - Participantes
+    </h3>
+    <ul *ngIf="eventoExpandido[evento.id]" class="registro-list">
+      <li *ngFor="let registro of obtenerRegistrosPorEvento(evento.id)">
+        Participante: {{ obtenerNombreParticipante(registro.id_participante) }},
+        Estado: {{ registro.estado }}
+        <button (click)="editarRegistro(registro)">Editar</button>
+        <button (click)="eliminarRegistro(registro.id)">Eliminar</button>
+      </li>
+    </ul>
+  </div>
 
   <h3>{{ editandoRegistro ? 'Editar Registro' : 'Agregar Registro' }}</h3>
   <form class="form" (ngSubmit)="agregarRegistro()">
@@ -24,6 +29,8 @@
       <option value="confirmado">Confirmado</option>
       <option value="pendiente">Pendiente</option>
     </select>
-    <button type="submit">{{ editandoRegistro ? 'Guardar Cambios' : 'Agregar' }}</button>
+    <button type="submit" [disabled]="!puedeAgregarRegistro()">Agregar</button>
   </form>
+
+  <div *ngIf="mensajeError" class="error-message">{{ mensajeError }}</div>
 </div>

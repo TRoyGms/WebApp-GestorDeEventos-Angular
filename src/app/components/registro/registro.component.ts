@@ -22,6 +22,8 @@ export class RegistroComponent implements OnInit {
   eventos: Evento[] = [];
   editandoRegistro: boolean = false;
   registroEnEdicion: Registro | null = null;
+  mensajeError: string = '';
+  eventoExpandido: { [key: number]: boolean } = {};
 
   constructor(
     private registroService: RegistroService,
@@ -69,6 +71,11 @@ export class RegistroComponent implements OnInit {
   }
 
   agregarRegistro(): void {
+    if (this.esRegistroDuplicado(this.nuevoRegistro.id_evento, this.nuevoRegistro.id_participante)) {
+      this.mensajeError = 'El participante ya está registrado en este evento.';
+      return;
+    }
+
     if (this.editandoRegistro && this.registroEnEdicion) {
       this.registroService.editarRegistro(this.registroEnEdicion.id, this.nuevoRegistro).subscribe(
         () => {
@@ -121,15 +128,30 @@ export class RegistroComponent implements OnInit {
     };
     this.editandoRegistro = false;
     this.registroEnEdicion = null;
+    this.mensajeError = '';
   }
 
-  obtenerNombreEvento(idEvento: number): string {
-    const evento = this.eventos.find(e => e.id === idEvento);
-    return evento ? evento.nombre : 'Desconocido';
+  obtenerRegistrosPorEvento(idEvento: number): Registro[] {
+    return this.registros.filter(registro => registro.id_evento === idEvento);
   }
 
   obtenerNombreParticipante(idParticipante: number): string {
     const participante = this.participantes.find(p => p.id === idParticipante);
     return participante ? `${participante.nombre} ${participante.apellidos}` : 'Desconocido';
+  }
+
+  toggleEvento(idEvento: number): void {
+    this.eventoExpandido[idEvento] = !this.eventoExpandido[idEvento];
+  }
+
+  esRegistroDuplicado(idEvento: number, idParticipante: number): boolean {
+    return this.registros.some(
+      registro => registro.id_evento === idEvento && registro.id_participante === idParticipante
+    );
+  }
+
+  puedeAgregarRegistro(): boolean {
+    // Validar si el participante ya está registrado en el mismo evento
+    return !this.esRegistroDuplicado(this.nuevoRegistro.id_evento, this.nuevoRegistro.id_participante);
   }
 }
